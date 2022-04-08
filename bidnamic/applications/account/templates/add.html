@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Accounts list page{% endblock %}
+
+{% block head_bottom_css %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+{% endblock head_bottom_css %}
+
+{% block content %}
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Create Account</div>
+                    <div class="panel-body">
+                        {{ form.errors }}
+                        {% if error_message %}
+                            <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                        {% endif %}
+                        {% for field in form %}
+                            <div class="form-group clearfix">
+                                {% if field.errors %}
+                                    <div class="alert alert-danger" role="alert">{{ field.errors.0 }}</div>
+                                {% endif %}
+                                <label for="{{ field.name }}" class="col-md-4 control-label text-right">{{ field.label }}:</label>
+                                <div class="col-md-6">
+                                {% if field.field.widget.input_type == 'text' and not field.field.max_length %}
+                                    <input name="{{ field.name }}" value="" type="{{ field.field.widget.input_type }}" class="form-control" data-provide="datepicker" required="" />
+                                {% elif field.field.widget.input_type == 'select' and not field.field.max_length %}
+                                    <select name="{{ field.name }}" required="required">
+                                        <option value="None" hidden="hidden">Make your choice</option>
+                                    {% for choice in field.field.widget.choices %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                    {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <input name="{{ field.name }}" value="" maxlength="{{ field.field.max_length }}" type="{{ field.field.widget.input_type }}" class="form-control" />
+                                {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-md-6 col-md-offset-4">
+                            <input name="add" type="submit" value="Add" class="btn btn-secondary btn-lg btn-block" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block body_bottom_js %}
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $('.datepicker').datepicker();
+    </script>
+{% endblock body_bottom_js %}
