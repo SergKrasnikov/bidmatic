@@ -13,10 +13,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Create Account</div>
                     <div class="panel-body">
-                        {{ form.errors }}
-                        {% if error_message %}
-                            <p class="bg-danger p-d ml-b">{{ error_message }}</p>
-                        {% endif %}
                         {% for field in form %}
                             <div class="form-group clearfix">
                                 {% if field.errors %}

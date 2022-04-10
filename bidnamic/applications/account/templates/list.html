@@ -1,46 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}Accounts list page{% endblock %}
 
+{% block head_bottom_css %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bidnamic/account/css/style.css' %}">
+{% endblock head_bottom_css %}
+
 {% block content %}
     <div class="container">
         <div>
-            <style>
-                div.flex-cell {
-                    width: 12.51%;
-                    border-style: outset;
-                    border-width: 1px;
-                    border-block-color: white;
-                    padding-top: 5px;
-                    padding-bottom: 5px;
-                    padding-left: 2px;
-                    padding-right: 2px;
-                }
-                div.title {
-                    width: 3%;
-                }
-                div.birthday {
-                    width: 9%;
-                }
-                div.even {
-                    background-color: violet;
-                }
-                div.odd {
-                    background-color: aqua;
-                }
-            </style>
+            <h1>Account{% if object_list|length > 1 %}s{% endif %}</h1>
             <div class="container">
-                <h1>Account{% if object_list|length > 1 %}s{% endif %}</h1>
-                <div style="display: flex; flex-wrap: wrap; padding-top: 15px; padding-bottom: 15px">
+                <div>
                 {% for account in object_list %}
                     <div class="flex-cell title {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">{{ account.title }}</div>
                     <div class="flex-cell">{{ account.first_name }}</div>
                     <div class="flex-cell">{{ account.surname }}</div>
                     <div class="flex-cell birthday">{{ account.birthday|date }}</div>
                     <div class="flex-cell">{{ account.company_name }}</div>
-                    <div class="flex-cell">{{ account.address }}</div>
+                    <div class="flex-cell"><p>{{ account.address }}</p></div>
                     <div class="flex-cell">{{ account.telephone }}</div>
                     <div class="flex-cell">{{ account.get_bidding_display|safe }}</div>
-                    <div class="flex-cell">GoogleAds: {{ account.google_ads_acc_id }}</div>
+                    <div class="flex-cell"><p>GoogleAds:<br />{{ account.google_ads_acc_id }}</p></div>
+                    <div class="flex-cell cell-full-width">
+                        <form action="{% url 'account:remove' pk=account.pk %}" method="POST">
+                            <!-- Security token by Django -->
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Remove account for {% if account.first_name or account.surname %}{{ account.first_name }} {{ account.surname }}{% else %}Google Ads account {{ account.google_ads_acc_id }}{% endif %}</button>
+                        </form>
+                    </div>
+
                 {% empty %}
                     <p>No Accounts yet.</p>
                 {% endfor %}

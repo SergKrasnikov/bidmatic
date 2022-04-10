@@ -1,0 +1,57 @@
+div.container {
+  div {
+
+    div.container {
+      padding-left: 0;
+      padding-right: 0;
+
+      div {
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        width: 100%;
+
+        div.flex-cell {
+          align-items: center;
+          justify-content: center;
+          width: 12.57%;
+          border-style: outset;
+          border-width: 1px;
+          border-block-color: white;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-left: 2px;
+          padding-right: 2px;
+
+          p {
+            text-align: center;
+            margin: 0px;
+          }
+        }
+
+        div.cell-full-width {
+          width: 100%;
+          border: none;
+        }
+
+        div.title {
+          width: 3%;
+        }
+
+        div.birthday {
+          width: 9%;
+        }
+
+        div.even {
+          background-color: violet;
+        }
+
+        div.odd {
+          background-color: aqua;
+        }
+
+      }
+    }
+  }
+}
